@@ -3,12 +3,31 @@ import type { Tool } from "../data/tools";
 import InputField from "./InputField.astro";
 import FAQBlock from "./FAQBlock.astro";
 import RelatedTools from "./RelatedTools.astro";
+import LandlordMathLink from "./LandlordMathLink.astro";
 
 interface Props {
   tool: Tool;
 }
 
 const { tool } = Astro.props;
+const guideLinks = {
+  "rent-estimate": [
+    { href: "/rent-comparison/", label: "Compare similar rentals" },
+    { href: "/market-rent-analysis/", label: "Check market position" },
+    { href: "/guides/how-to-estimate-rent/", label: "Read the rent estimate guide" }
+  ],
+  "rent-comparison": [
+    { href: "/rent-estimate/", label: "Estimate a rent range" },
+    { href: "/market-rent-analysis/", label: "Analyze market position" },
+    { href: "/guides/compare-rental-properties/", label: "Read the rental comparison guide" },
+    { href: "/guides/rent-price-per-square-foot/", label: "Learn price per square foot" }
+  ],
+  "market-rent-analysis": [
+    { href: "/rent-estimate/", label: "Estimate rent first" },
+    { href: "/rent-comparison/", label: "Compare rental comps" },
+    { href: "/guides/how-to-estimate-rent/", label: "Read the rent pricing workflow" }
+  ]
+}[tool.type];
 ---
 
 <section class="hero-card">
@@ -92,10 +111,24 @@ const { tool } = Astro.props;
 <RelatedTools related={tool.related} />
 
 <section class="content-card">
+  <h2>Next Rent Pricing Step</h2>
+  <div class="compact-link-grid">
+    {guideLinks.map((link) => (
+      <a class="related-card" href={link.href}>
+        <strong>{link.label}</strong>
+        <span>Use this next if it helps you choose a stronger rent price before listing.</span>
+      </a>
+    ))}
+  </div>
+</section>
+
+<section class="content-card">
   <h2>Methodology note</h2>
   <p>{tool.methodology}</p>
   <p class="disclaimer">This tool provides estimates for planning purposes only and does not replace professional real estate advice.</p>
 </section>
+
+<LandlordMathLink />
 
 <script>
   import "../scripts/calculator-tool.ts";

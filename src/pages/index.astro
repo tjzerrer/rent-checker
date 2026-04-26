@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import LandlordMathLink from "../components/LandlordMathLink.astro";
 import { site } from "../data/site";
 import { tools } from "../data/tools";
 import { guides } from "../data/guides";
@@ -23,18 +24,47 @@ const structuredData = [
 ---
 
 <BaseLayout
-  title="Rent Estimate & Comps Checker | Rent Checker"
-  description="Estimate rent, compare rental properties, and analyze above-market or below-market rent with fast manual rent calculators."
+  title="Rent Checker | Estimate Rent and Compare Rental Pricing"
+  description="Estimate rent, compare rental properties, and analyze whether rent is above or below market using simple rental pricing tools."
   structuredData={structuredData}
 >
   <section class="hero-card">
     <div class="eyebrow">Rent estimate and comps checker</div>
-    <h1>Rent math for estimates, comps, and market checks.</h1>
-    <p class="hero-copy">Simple calculators for planning rent ranges, comparing rentals side-by-side, and checking whether a rent amount is above or below an estimate.</p>
+    <h1>Estimate Rent Before You List</h1>
+    <p class="hero-copy">Use simple rent estimate, rental comparison, and market rent tools to decide what a property should rent for before you list it.</p>
+    <p class="hero-copy">Rent Checker helps you estimate, compare, and position rent before pricing a property.</p>
+    <div class="hero-actions">
+      <a class="button primary-button" href="/rent-estimate/">Start With Rent Estimate</a>
+      <a class="button secondary-button" href="/rent-comparison/">Compare Rental Properties</a>
+    </div>
   </section>
 
   <section class="content-card">
-    <h2>Main tools</h2>
+    <h2>A Simple Rent Pricing Workflow</h2>
+    <div class="workflow-grid">
+      <article class="step-card">
+        <span class="step-number">1</span>
+        <h3>Estimate Rent</h3>
+        <p>Start with property details like square footage, bedrooms, bathrooms, property type, and condition.</p>
+        <a class="button primary-button" href="/rent-estimate/">Use Rent Estimate Calculator</a>
+      </article>
+      <article class="step-card">
+        <span class="step-number">2</span>
+        <h3>Compare Rentals</h3>
+        <p>Enter similar rentals side by side to compare rent, square footage, and price per square foot.</p>
+        <a class="button primary-button" href="/rent-comparison/">Use Rent Comparison Tool</a>
+      </article>
+      <article class="step-card">
+        <span class="step-number">3</span>
+        <h3>Analyze Market Position</h3>
+        <p>Check whether your rent is above, below, or within your estimated market range.</p>
+        <a class="button primary-button" href="/market-rent-analysis/">Use Market Rent Analysis</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="content-card">
+    <h2>Rent Pricing Tools</h2>
     <div class="tool-grid">
       {tools.map((tool) => (
         <a class="tool-card" href={`/${tool.slug}/`}>
@@ -42,27 +72,6 @@ const structuredData = [
           <span>{tool.intro}</span>
         </a>
       ))}
-    </div>
-  </section>
-
-  <section class="content-card">
-    <h2>Which tool should I use?</h2>
-    <div class="home-grid">
-      <div>
-        <h3>Estimate rent</h3>
-        <p>Use the Rent Estimate Calculator when you know the property size, bedroom count, bathroom count, property type, and condition.</p>
-        <a href="/rent-estimate/">Open rent estimate</a>
-      </div>
-      <div>
-        <h3>Compare options</h3>
-        <p>Use the Rent Comparison Tool when you have several rentals and want to compare rent and price per square foot.</p>
-        <a href="/rent-comparison/">Compare rentals</a>
-      </div>
-      <div>
-        <h3>Check market position</h3>
-        <p>Use Market Rent Analysis when you have your rent and a market estimate and want to see the difference.</p>
-        <a href="/market-rent-analysis/">Analyze market rent</a>
-      </div>
     </div>
   </section>
 
@@ -82,4 +91,6 @@ const structuredData = [
     <h2>Planning note</h2>
     <p class="disclaimer">This tool provides estimates for planning purposes only and does not replace professional real estate advice.</p>
   </section>
+
+  <LandlordMathLink />
 </BaseLayout>

@@ -4,6 +4,7 @@ import GuideArticle from "../../components/GuideArticle.astro";
 import ToolCTA from "../../components/ToolCTA.astro";
 import RelatedTools from "../../components/RelatedTools.astro";
 import RelatedGuides from "../../components/RelatedGuides.astro";
+import LandlordMathLink from "../../components/LandlordMathLink.astro";
 import FAQBlock from "../../components/FAQBlock.astro";
 import { getGuide } from "../../data/guides";
 import { site } from "../../data/site";
@@ -231,5 +232,6 @@ const structuredData = [
 
   <FAQBlock faqs={faqs} />
   <RelatedTools related={["rent-estimate", "rent-comparison", "market-rent-analysis"]} />
-  <RelatedGuides related={["rent-price-per-square-foot"]} />
+  <RelatedGuides related={["rent-price-per-square-foot", "compare-rental-properties"]} />
+  <LandlordMathLink />
 </BaseLayout>

@@ -1,0 +1,248 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import GuideArticle from "../../components/GuideArticle.astro";
+import ToolCTA from "../../components/ToolCTA.astro";
+import RelatedTools from "../../components/RelatedTools.astro";
+import RelatedGuides from "../../components/RelatedGuides.astro";
+import FAQBlock from "../../components/FAQBlock.astro";
+import LandlordMathLink from "../../components/LandlordMathLink.astro";
+import { getGuide } from "../../data/guides";
+import { site } from "../../data/site";
+
+const guide = getGuide("compare-rental-properties")!;
+const guideUrl = `${site.url}/guides/${guide.slug}/`;
+const faqs = [
+  {
+    question: "How many properties should I compare?",
+    answer: "Compare at least 3 to 5 similar rentals when possible. More consistent comps usually produce a more useful range."
+  },
+  {
+    question: "What if no similar properties exist?",
+    answer: "Use the closest matches available and adjust for the biggest differences, such as size, property type, condition, and location."
+  },
+  {
+    question: "Is price per square foot always accurate?",
+    answer: "It is a strong comparison tool, but it should be combined with layout, condition, bedroom count, and location."
+  },
+  {
+    question: "Should I match the average rent?",
+    answer: "Not always. Use the average as context, then position your rent based on the property's strengths and risks."
+  }
+];
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: guide.h1,
+    description: guide.description,
+    url: guideUrl,
+    mainEntityOfPage: guideUrl,
+    isPartOf: {
+      "@type": "WebSite",
+      name: site.name,
+      url: site.url
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 2, name: "Guides", item: `${site.url}/guides/` },
+      { "@type": "ListItem", position: 3, name: guide.pageTitle, item: guideUrl }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer
+      }
+    }))
+  }
+];
+---
+
+<BaseLayout title={guide.title} description={guide.description} structuredData={structuredData}>
+  <GuideArticle guide={guide}>
+    <section class="guide-section">
+      <p>Most people compare rental properties the wrong way.</p>
+      <p>They focus on total rent, photos, or what feels expensive.</p>
+      <p>But investors compare properties using data, not guesses.</p>
+      <p>This guide shows you how to compare rental properties the right way and how to use the tools on this site to do it quickly.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>Step 1: Start With the Right Data</h2>
+      <p>Before comparing properties, gather consistent inputs:</p>
+      <ul>
+        <li>Monthly rent</li>
+        <li>Square footage</li>
+        <li>Bedrooms</li>
+        <li>Bathrooms</li>
+      </ul>
+      <p>Optional details like property type and condition can make the comparison stronger.</p>
+      <p>Inconsistent data leads to poor comparisons. A property with missing square footage or unclear bedroom count can distort the pricing range.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>Step 2: Normalize Using Price Per Square Foot</h2>
+      <p>Convert all properties into price per square foot.</p>
+      <p><strong>Price per square foot = Rent / Square footage</strong></p>
+      <div class="guide-table-wrap">
+        <table class="guide-table">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Rent</th>
+              <th>Sq Ft</th>
+              <th>Price Per Sq Ft</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>A</td><td>$1,800</td><td>1,200</td><td>$1.50</td></tr>
+            <tr><td>B</td><td>$2,000</td><td>1,500</td><td>$1.33</td></tr>
+            <tr><td>C</td><td>$1,750</td><td>1,150</td><td>$1.52</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Property C is actually the most expensive per square foot despite having a lower total rent than Property A or Property B.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>Compare Properties Instantly</h2>
+      <ToolCTA
+        title="Compare Rentals Instantly"
+        text="Use the Rent Comparison Tool to compare multiple properties side by side and see price per square foot, averages, and pricing differences."
+        button="Use the Rent Comparison Tool"
+        href="/rent-comparison/"
+      />
+    </section>
+
+    <section class="guide-section">
+      <h2>Step 3: Compare Like-for-Like Properties</h2>
+      <p>Only compare similar properties when possible:</p>
+      <ul>
+        <li>Same property type</li>
+        <li>Similar size</li>
+        <li>Similar bedrooms</li>
+        <li>Similar condition</li>
+        <li>Same location</li>
+      </ul>
+      <p>Avoid comparing apartments against houses, luxury rentals against basic rentals, or properties in very different neighborhoods.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>Step 4: Identify the Market Range</h2>
+      <p>After comparing multiple properties, a pricing range will usually appear.</p>
+      <p>For example, similar rentals might cluster around $1.45 to $1.55 per sq ft.</p>
+      <p>That range is more reliable than a single listing because it reduces the impact of one unusually high or unusually low comp.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>Step 5: Position Your Property</h2>
+      <p>Once you know the range, decide where your property fits:</p>
+      <ul>
+        <li><strong>Updated:</strong> higher range</li>
+        <li><strong>Average:</strong> middle range</li>
+        <li><strong>Outdated:</strong> lower range</li>
+      </ul>
+    </section>
+
+    <section class="guide-section">
+      <h2>Check Your Market Position</h2>
+      <ToolCTA
+        title="Analyze Your Rent Position"
+        text="Use the Market Rent Analysis Tool to see if your rent is above or below market."
+        button="Use the Market Rent Analysis Tool"
+        href="/market-rent-analysis/"
+      />
+      <ul>
+        <li><strong>Below market:</strong> the property may be underpriced.</li>
+        <li><strong>Within range:</strong> the rent is likely competitive.</li>
+        <li><strong>Above range:</strong> the rent is using premium pricing.</li>
+      </ul>
+    </section>
+
+    <section class="guide-section">
+      <h2>Step 6: Combine Comparison With Estimation</h2>
+      <p>Best results come from combining the <a href="/rent-estimate/">Rent Estimate Calculator</a>, the <a href="/rent-comparison/">Rent Comparison Tool</a>, and <a href="/market-rent-analysis/">Market Rent Analysis</a>.</p>
+      <p>Estimate first, compare against real rental comps, then check whether your final price sits above, below, or within your expected range.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>Full Example</h2>
+      <p>Suppose the property has:</p>
+      <ul>
+        <li>1,200 sq ft</li>
+        <li>3 bedrooms</li>
+        <li>Average condition</li>
+      </ul>
+      <ol>
+        <li><a href="/rent-estimate/">Estimate rent</a>.</li>
+        <li><a href="/rent-comparison/">Compare properties</a>.</li>
+        <li><a href="/market-rent-analysis/">Analyze position</a>.</li>
+      </ol>
+      <p>A practical final range might be $1,850 to $1,900 if similar rentals support that level.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>What Investors Look For</h2>
+      <ul>
+        <li><strong>Consistency:</strong> multiple comps agree.</li>
+        <li><strong>Efficiency:</strong> price per square foot makes sense.</li>
+        <li><strong>Risk:</strong> higher pricing can increase vacancy risk.</li>
+        <li><strong>Market signals:</strong> rentals moving quickly may support stronger pricing.</li>
+      </ul>
+    </section>
+
+    <section class="guide-section">
+      <h2>Common Mistakes</h2>
+      <ul>
+        <li>Comparing only 1 or 2 properties</li>
+        <li>Ignoring square footage</li>
+        <li>Mixing property types</li>
+        <li>Overreacting to outliers</li>
+      </ul>
+    </section>
+
+    <section class="guide-section">
+      <h2>Quick Workflow</h2>
+      <ol>
+        <li>Estimate rent.</li>
+        <li>Compare properties.</li>
+        <li>Analyze position.</li>
+      </ol>
+      <div class="compact-link-grid">
+        <a class="related-card" href="/rent-estimate/"><strong>Rent Estimate Calculator</strong><span>Start with a rent range.</span></a>
+        <a class="related-card" href="/rent-comparison/"><strong>Rent Comparison Tool</strong><span>Compare rent and price per square foot.</span></a>
+        <a class="related-card" href="/market-rent-analysis/"><strong>Market Rent Analysis</strong><span>Check above or below market.</span></a>
+      </div>
+    </section>
+
+    <section class="guide-section">
+      <h2>Final Thought</h2>
+      <p>Comparing rental properties correctly removes guesswork.</p>
+      <p>When you normalize data, compare similar properties, and use consistent tools, you make better pricing decisions.</p>
+      <ToolCTA
+        title="Start Comparing Rentals"
+        text="Use the tools below to estimate rent, compare properties, and analyze your pricing."
+        button="Compare Rentals"
+        href="/rent-comparison/"
+      />
+      <div class="action-row">
+        <a class="button secondary-button" href="/rent-estimate/">Estimate Rent</a>
+        <a class="button secondary-button" href="/market-rent-analysis/">Analyze Market</a>
+      </div>
+    </section>
+  </GuideArticle>
+
+  <FAQBlock faqs={faqs} />
+  <RelatedTools related={["rent-estimate", "rent-comparison", "market-rent-analysis"]} />
+  <RelatedGuides related={["how-to-estimate-rent", "rent-price-per-square-foot"]} />
+  <LandlordMathLink />
+</BaseLayout>

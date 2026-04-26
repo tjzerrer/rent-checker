@@ -211,13 +211,21 @@ const structuredDataList = structuredData ? (Array.isArray(structuredData) ? str
         font-size: 1.08rem;
       }
 
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1.4rem;
+      }
+
       .guide-hero h1 {
         max-width: 18ch;
       }
 
       .tool-grid,
       .related-grid,
-      .home-grid {
+      .home-grid,
+      .workflow-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 1rem;
@@ -253,6 +261,26 @@ const structuredDataList = structuredData ? (Array.isArray(structuredData) ? str
       .tool-card span,
       .related-card span {
         color: var(--muted);
+      }
+
+      .step-card {
+        border: 1px solid rgba(220, 229, 239, 0.96);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.92);
+        padding: 1rem;
+      }
+
+      .step-number {
+        display: inline-flex;
+        width: 2rem;
+        height: 2rem;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        background: var(--surface-tint);
+        color: var(--brand);
+        font-weight: 900;
+        margin-bottom: 0.75rem;
       }
 
       .calculator-main {
@@ -541,6 +569,32 @@ const structuredDataList = structuredData ? (Array.isArray(structuredData) ? str
         padding: 1rem;
       }
 
+      .handoff-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .handoff-card h2 {
+        margin-bottom: 0.35rem;
+      }
+
+      .handoff-card p {
+        max-width: 68ch;
+        color: var(--muted);
+        margin-bottom: 0;
+      }
+
+      .handoff-card--compact {
+        border: 1px solid rgba(220, 229, 239, 0.95);
+        border-radius: var(--radius-lg);
+        background: rgba(255, 255, 255, 0.84);
+        box-shadow: var(--shadow-sm);
+        margin-bottom: 1.5rem;
+        padding: clamp(1.35rem, 3vw, 2rem);
+      }
+
       .site-footer {
         padding: 1.25rem;
       }
@@ -623,6 +677,7 @@ const structuredDataList = structuredData ? (Array.isArray(structuredData) ? str
         .tool-grid,
         .related-grid,
         .home-grid,
+        .workflow-grid,
         .compact-link-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
@@ -657,8 +712,14 @@ const structuredDataList = structuredData ? (Array.isArray(structuredData) ? str
         .tool-grid,
         .related-grid,
         .home-grid,
+        .workflow-grid,
         .compact-link-grid {
           grid-template-columns: 1fr;
+        }
+
+        .handoff-card {
+          align-items: flex-start;
+          flex-direction: column;
         }
 
         .footer-top {

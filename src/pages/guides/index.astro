@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import LandlordMathLink from "../../components/LandlordMathLink.astro";
 import { guides } from "../../data/guides";
+import { tools } from "../../data/tools";
 import { site } from "../../data/site";
 
 const title = "Rent Guides | Rent Checker";
@@ -48,4 +50,18 @@ const structuredData = [
       ))}
     </div>
   </section>
+
+  <section class="content-card">
+    <h2>Rent Pricing Tools</h2>
+    <div class="tool-grid">
+      {tools.map((tool) => (
+        <a class="tool-card" href={`/${tool.slug}/`}>
+          <strong>{tool.pageTitle}</strong>
+          <span>{tool.intro}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <LandlordMathLink />
 </BaseLayout>

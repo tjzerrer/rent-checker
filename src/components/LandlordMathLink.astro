@@ -1,0 +1,18 @@
+---
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+---
+
+<section class={compact ? "handoff-card handoff-card--compact" : "content-card handoff-card"}>
+  <div>
+    <h2>Already Know the Rent?</h2>
+    <p>
+      Once you know what rent to charge, use Landlord Math to calculate prorated rent, move-in costs,
+      rent increases, and other lease-related numbers.
+    </p>
+  </div>
+  <a class="button secondary-button" href="https://landlord-math.vercel.app/">Go to Landlord Math</a>
+</section>

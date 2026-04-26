@@ -27,6 +27,16 @@ export const guides: Guide[] = [
     h1: "What Is a Good Price Per Square Foot for Rent?",
     intro:
       "Learn how price per square foot helps compare rentals, build a market range, and check whether rent is competitive."
+  },
+  {
+    slug: "compare-rental-properties",
+    title: "How to Compare Rental Properties | Rent Comparison Guide",
+    pageTitle: "How to Compare Rental Properties Like an Investor",
+    description:
+      "Learn how to compare rental properties using rent, square footage, and price per square foot. Make better rent decisions with data and tools.",
+    h1: "How to Compare Rental Properties Like an Investor",
+    intro:
+      "Learn how to compare rentals with consistent data, price per square foot, and market-position checks before pricing a property."
   }
 ];
 
