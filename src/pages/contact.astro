@@ -1,0 +1,71 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
+
+const title = `Contact | ${site.name}`;
+const description = "Send a message about Rent Checker, calculator suggestions, or rent planning questions.";
+const contactUrl = `${site.url}/contact/`;
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: title,
+    description,
+    url: contactUrl,
+    isPartOf: {
+      "@type": "WebSite",
+      name: site.name,
+      url: site.url
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 2, name: "Contact", item: contactUrl }
+    ]
+  }
+];
+---
+
+<BaseLayout title={title} description={description} structuredData={structuredData}>
+  <section class="hero-card">
+    <div class="eyebrow">Contact</div>
+    <h1>Questions, suggestions, or calculator requests.</h1>
+    <p class="hero-copy">Send a message directly from the form below.</p>
+  </section>
+
+  <section class="content-card">
+    <h2>Send a message</h2>
+    <form class="contact-form" data-contact-form novalidate>
+      <label class="contact-field">
+        <span>Name</span>
+        <input name="name" autocomplete="name" aria-describedby="contact-name-error" />
+        <span class="contact-field-error" id="contact-name-error">Please enter your name.</span>
+      </label>
+      <label class="contact-field">
+        <span>Email</span>
+        <input name="email" type="email" autocomplete="email" aria-describedby="contact-email-error" />
+        <span class="contact-field-error" id="contact-email-error">Please enter your email.</span>
+      </label>
+      <label class="contact-field">
+        <span>Message</span>
+        <textarea name="message" aria-describedby="contact-message-error"></textarea>
+        <span class="contact-field-error" id="contact-message-error">Please enter a message.</span>
+      </label>
+      <div class="action-row">
+        <button class="primary-button" type="submit">Send message</button>
+      </div>
+      <p class="contact-status" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <section class="content-card">
+    <p class="disclaimer">This tool provides estimates for planning purposes only and does not replace professional real estate advice.</p>
+  </section>
+
+  <script>
+    import "../scripts/contact-form.ts";
+  </script>
+</BaseLayout>

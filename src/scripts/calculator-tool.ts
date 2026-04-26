@@ -9,14 +9,24 @@ import {
 const money = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
 const number = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
 
+function parseNumber(value: string) {
+  return Number(value.replace(/,/g, ""));
+}
+
+function formatNumberInput(input: HTMLInputElement) {
+  const raw = input.value.replace(/,/g, "");
+  if (raw === "" || raw === "-" || raw.endsWith(".")) return;
+  const value = Number(raw);
+  if (Number.isNaN(value)) return;
+  const decimals = raw.includes(".") ? raw.split(".")[1]?.length ?? 0 : 0;
+  input.value = new Intl.NumberFormat("en-US", {
+    maximumFractionDigits: Math.max(decimals, 0)
+  }).format(value);
+}
+
 function readValue(root: Element, id: string) {
   const input = root.querySelector<HTMLInputElement | HTMLSelectElement>(`[data-input="${id}"]`);
   return input?.value.trim() ?? "";
-}
-
-function readNumber(root: Element, id: string) {
-  const raw = readValue(root, id);
-  return raw === "" ? NaN : Number(raw);
 }
 
 function setError(input: HTMLInputElement | HTMLSelectElement, message?: string) {
@@ -37,7 +47,7 @@ function clearErrors(root: Element) {
 
 function requireNumber(root: Element, id: string, message: string, min?: number) {
   const input = root.querySelector<HTMLInputElement>(`[data-input="${id}"]`);
-  const value = input ? Number(input.value) : NaN;
+  const value = input ? parseNumber(input.value) : NaN;
   if (!input || input.value.trim() === "" || Number.isNaN(value) || (min !== undefined && value < min)) {
     if (input) setError(input, message);
     return null;
@@ -85,10 +95,10 @@ function renderRentComparison(root: Element, result: HTMLElement) {
     const sqftInput = group.querySelector<HTMLInputElement>(`[data-input="squareFeet"]`);
     const bedroomsInput = group.querySelector<HTMLInputElement>(`[data-input="bedrooms"]`);
     const bathroomsInput = group.querySelector<HTMLInputElement>(`[data-input="bathrooms"]`);
-    const rent = Number(rentInput?.value);
-    const squareFeet = Number(sqftInput?.value);
-    const bedrooms = Number(bedroomsInput?.value);
-    const bathrooms = Number(bathroomsInput?.value);
+    const rent = parseNumber(rentInput?.value ?? "");
+    const squareFeet = parseNumber(sqftInput?.value ?? "");
+    const bedrooms = parseNumber(bedroomsInput?.value ?? "");
+    const bathrooms = parseNumber(bathroomsInput?.value ?? "");
 
     if (!rentInput?.value || !sqftInput?.value || squareFeet <= 0 || !bedroomsInput?.value || !bathroomsInput?.value) {
       [rentInput, sqftInput, bedroomsInput, bathroomsInput].forEach((input) => {
@@ -148,6 +158,9 @@ document.querySelectorAll<HTMLElement>("[data-calculator]").forEach((root) => {
     input.addEventListener("input", () => {
       input.closest<HTMLElement>(".input-field")?.classList.remove("has-error");
       input.removeAttribute("aria-invalid");
+      if (input instanceof HTMLInputElement && input.dataset.numberInput !== undefined) {
+        formatNumberInput(input);
+      }
     });
   });
 

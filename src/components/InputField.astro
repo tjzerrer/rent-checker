@@ -25,12 +25,11 @@ const errorId = `${id}-error`;
         <input
           id={id}
           name={id}
-          type="number"
+          type="text"
           inputmode="decimal"
-          min={field.min}
-          step={field.step ?? "any"}
           value={value}
           data-input={field.id}
+          data-number-input
           aria-describedby={errorId}
           required={field.required}
         />

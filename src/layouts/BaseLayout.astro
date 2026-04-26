@@ -479,10 +479,10 @@ const structuredDataList = structuredData ? (Array.isArray(structuredData) ? str
       }
 
       .footer-top {
-        display: grid;
-        grid-template-columns: 1fr minmax(280px, 420px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         gap: 1.25rem;
-        align-items: start;
       }
 
       .contact-form {
@@ -588,9 +588,13 @@ const structuredDataList = structuredData ? (Array.isArray(structuredData) ? str
 
         .tool-grid,
         .related-grid,
-        .home-grid,
-        .footer-top {
+        .home-grid {
           grid-template-columns: 1fr;
+        }
+
+        .footer-top {
+          align-items: flex-start;
+          flex-direction: column;
         }
 
         .input-field,
@@ -625,38 +629,17 @@ const structuredDataList = structuredData ? (Array.isArray(structuredData) ? str
       <footer class="site-footer">
         <div class="footer-top">
           <div>
-            <h2>Contact</h2>
-            <p class="hero-copy">Send a quick note about a calculator issue, suggestion, or rental math question.</p>
+            <h2>{site.name}</h2>
+            <p class="hero-copy">Fast rent estimate, comparison, and market rent planning tools.</p>
             <nav class="footer-links" aria-label="Footer navigation">
               <a href="/">Home</a>
               <a href="/about/">About</a>
               <a href="/methodology/">Methodology</a>
+              <a href="/contact/">Contact</a>
             </nav>
           </div>
-          <form class="contact-form" data-contact-form novalidate>
-            <label class="contact-field">
-              <span>Name</span>
-              <input name="name" autocomplete="name" aria-describedby="footer-name-error" />
-              <span class="contact-field-error" id="footer-name-error">Please enter your name.</span>
-            </label>
-            <label class="contact-field">
-              <span>Email</span>
-              <input name="email" type="email" autocomplete="email" aria-describedby="footer-email-error" />
-              <span class="contact-field-error" id="footer-email-error">Please enter your email.</span>
-            </label>
-            <label class="contact-field">
-              <span>Message</span>
-              <textarea name="message" aria-describedby="footer-message-error"></textarea>
-              <span class="contact-field-error" id="footer-message-error">Please enter a message.</span>
-            </label>
-            <button class="primary-button" type="submit">Send message</button>
-            <p class="contact-status" role="status" aria-live="polite"></p>
-          </form>
         </div>
       </footer>
     </div>
-    <script>
-      import "../scripts/contact-form.ts";
-    </script>
   </body>
 </html>
