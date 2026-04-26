@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
+---
+
+<BaseLayout
+  title={`Methodology | ${site.name}`}
+  description="Review the assumptions and formulas used by the Rent Checker rent estimate and comparison calculators."
+>
+  <section class="hero-card">
+    <div class="eyebrow">Methodology</div>
+    <h1>Transparent assumptions first.</h1>
+    <p class="hero-copy">The calculators use simple formulas and user-entered values. They are built for planning, not live market scraping or professional appraisal work.</p>
+  </section>
+
+  <section class="content-card">
+    <h2>Rent estimate model</h2>
+    <p>The rent estimate starts with a base price per square foot by property type, then adjusts for bedrooms, bathrooms, and condition. The result is shown as a range because local market variation can be significant.</p>
+  </section>
+
+  <section class="content-card">
+    <h2>Comparison model</h2>
+    <p>The comparison tool calculates price per square foot for each rental and identifies the average rent, lowest rent, and highest rent in the manual set entered by the user.</p>
+  </section>
+
+  <section class="content-card">
+    <h2>What these tools do not do</h2>
+    <p>They do not scrape listings, predict demand, verify legal rent rules, or replace professional real estate advice.</p>
+    <p class="disclaimer">This tool provides estimates for planning purposes only and does not replace professional real estate advice.</p>
+  </section>
+</BaseLayout>

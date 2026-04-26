@@ -1,0 +1,22 @@
+---
+import { getTool } from "../data/tools";
+
+interface Props {
+  related: string[];
+}
+
+const { related } = Astro.props;
+const tools = related.map((slug) => getTool(slug)).filter(Boolean);
+---
+
+<section class="content-card">
+  <h2>Related Tools</h2>
+  <div class="related-grid">
+    {tools.map((tool) => (
+      <a class="related-card" href={`/${tool!.slug}/`}>
+        <strong>{tool!.pageTitle}</strong>
+        <span>{tool!.intro}</span>
+      </a>
+    ))}
+  </div>
+</section>

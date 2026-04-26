@@ -1,0 +1,96 @@
+---
+import type { Tool } from "../data/tools";
+import InputField from "./InputField.astro";
+import FAQBlock from "./FAQBlock.astro";
+import RelatedTools from "./RelatedTools.astro";
+
+interface Props {
+  tool: Tool;
+}
+
+const { tool } = Astro.props;
+---
+
+<section class="hero-card">
+  <div class="eyebrow">Rent Checker</div>
+  <h1>{tool.h1}</h1>
+  <p class="hero-copy">{tool.intro}</p>
+</section>
+
+<section class="calculator-shell" data-calculator={tool.type}>
+  <div class="calculator-main">
+    <article class="input-panel">
+      <h2>{tool.inputTitle}</h2>
+      {tool.type === "rent-comparison" ? (
+        <div class="formula-list" data-comparison-list>
+          {[0, 1, 2].map((index) => (
+            <fieldset class="input-panel">
+              <legend>Property {index + 1}</legend>
+              <div class="field-grid">
+                <InputField field={{ id: "rent", label: "Rent", type: "number", unit: "$", size: "medium", required: true, min: 0, step: "1", message: "Please enter rent." }} prefix={`p${index}-`} />
+                <InputField field={{ id: "squareFeet", label: "Square footage", type: "number", unit: "sq ft", size: "medium", required: true, min: 1, step: "1", message: "Please enter square footage." }} prefix={`p${index}-`} />
+                <InputField field={{ id: "bedrooms", label: "Bedrooms", type: "number", size: "compact", required: true, min: 0, step: "1", message: "Required." }} prefix={`p${index}-`} />
+                <InputField field={{ id: "bathrooms", label: "Bathrooms", type: "number", size: "compact", required: true, min: 0, step: "0.5", message: "Required." }} prefix={`p${index}-`} />
+              </div>
+            </fieldset>
+          ))}
+        </div>
+      ) : (
+        <div class="field-grid">
+          {tool.fields.map((field) => <InputField field={field} />)}
+        </div>
+      )}
+      <div class="action-row">
+        <button class="primary-button" type="button" data-calculate>Calculate</button>
+        <button class="secondary-button" type="button" data-reset>Reset</button>
+      </div>
+    </article>
+
+    <aside class="result-card" aria-live="polite">
+      <p class="result-label">Result</p>
+      <div data-result>
+        <p class="result-muted">Enter your numbers and click Calculate to see the result.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="content-card">
+  <h2>How we calculate this</h2>
+  <ol>
+    {tool.steps.map((step) => <li>{step}</li>)}
+  </ol>
+</section>
+
+<section class="content-card">
+  <h2>Formula</h2>
+  <div class="formula-list">
+    {tool.formulas.map((formula) => (
+      <div>
+        <strong>{formula.label}</strong>
+        <br />
+        <code>{formula.value}</code>
+      </div>
+    ))}
+  </div>
+</section>
+
+<section class="content-card">
+  <h2>Worked example</h2>
+  <ol>
+    {tool.example.map((line) => <li>{line}</li>)}
+  </ol>
+</section>
+
+<FAQBlock faqs={tool.faqs} />
+<RelatedTools related={tool.related} />
+
+<section class="content-card">
+  <h2>Methodology note</h2>
+  <p>{tool.methodology}</p>
+  <p class="disclaimer">This tool provides estimates for planning purposes only and does not replace professional real estate advice.</p>
+</section>
+
+<script>
+  import "../scripts/calculator-tool.ts";
+</script>

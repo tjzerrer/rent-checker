@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
+import { tools } from "../data/tools";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: site.name,
+    url: site.url,
+    description: site.description
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Rent Estimate and Comps Checker",
+    url: site.url,
+    description: site.description
+  }
+];
+---
+
+<BaseLayout
+  title="Rent Estimate & Comps Checker | Rent Checker"
+  description="Estimate rent, compare rental properties, and analyze above-market or below-market rent with fast manual rent calculators."
+  structuredData={structuredData}
+>
+  <section class="hero-card">
+    <div class="eyebrow">Rent estimate and comps checker</div>
+    <h1>Rent math for estimates, comps, and market checks.</h1>
+    <p class="hero-copy">Simple calculators for planning rent ranges, comparing rentals side-by-side, and checking whether a rent amount is above or below an estimate.</p>
+  </section>
+
+  <section class="content-card">
+    <h2>Main tools</h2>
+    <div class="tool-grid">
+      {tools.map((tool) => (
+        <a class="tool-card" href={`/${tool.slug}/`}>
+          <strong>{tool.pageTitle}</strong>
+          <span>{tool.intro}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="content-card">
+    <h2>Which tool should I use?</h2>
+    <div class="home-grid">
+      <div>
+        <h3>Estimate rent</h3>
+        <p>Use the Rent Estimate Calculator when you know the property size, bedroom count, bathroom count, property type, and condition.</p>
+        <a href="/rent-estimate/">Open rent estimate</a>
+      </div>
+      <div>
+        <h3>Compare options</h3>
+        <p>Use the Rent Comparison Tool when you have several rentals and want to compare rent and price per square foot.</p>
+        <a href="/rent-comparison/">Compare rentals</a>
+      </div>
+      <div>
+        <h3>Check market position</h3>
+        <p>Use Market Rent Analysis when you have your rent and a market estimate and want to see the difference.</p>
+        <a href="/market-rent-analysis/">Analyze market rent</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-card">
+    <h2>Planning note</h2>
+    <p class="disclaimer">This tool provides estimates for planning purposes only and does not replace professional real estate advice.</p>
+  </section>
+</BaseLayout>

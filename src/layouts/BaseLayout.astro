@@ -1,0 +1,662 @@
+---
+import { site } from "../data/site";
+
+interface Props {
+  title: string;
+  description: string;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { title, description, structuredData } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).toString();
+const structuredDataList = structuredData ? (Array.isArray(structuredData) ? structuredData : [structuredData]) : [];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {structuredDataList.map((entry) => <script type="application/ld+json" set:html={JSON.stringify(entry)} />)}
+    <style is:global>
+      :root {
+        --bg: #f4f7fb;
+        --surface: #ffffff;
+        --surface-tint: #eef7f5;
+        --text: #111827;
+        --muted: #5f6f84;
+        --border: #dce5ef;
+        --brand: #0f766e;
+        --brand-dark: #0b5f59;
+        --accent: #2563eb;
+        --warn: #b45309;
+        --shadow-sm: 0 10px 24px rgba(17, 24, 39, 0.06);
+        --shadow: 0 22px 50px rgba(17, 24, 39, 0.1);
+        --radius-sm: 12px;
+        --radius: 18px;
+        --radius-lg: 26px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--text);
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.76), rgba(244, 247, 251, 0.96)),
+          linear-gradient(90deg, rgba(15, 118, 110, 0.05), rgba(37, 99, 235, 0.04));
+        line-height: 1.55;
+      }
+
+      a {
+        color: var(--brand);
+        text-underline-offset: 0.18em;
+      }
+
+      a:hover {
+        color: var(--brand-dark);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        overflow-wrap: anywhere;
+      }
+
+      h1 {
+        max-width: 14ch;
+        margin: 0 0 1rem;
+        font-size: clamp(2.55rem, 5vw, 4.9rem);
+        line-height: 0.96;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        margin: 0 0 0.9rem;
+        font-size: clamp(1.55rem, 2vw, 2rem);
+        line-height: 1.08;
+      }
+
+      h3 {
+        margin: 0 0 0.55rem;
+      }
+
+      p {
+        margin: 0 0 1rem;
+      }
+
+      .page-shell {
+        width: min(100%, 1240px);
+        margin: 0 auto;
+        padding: 1.5rem;
+      }
+
+      .site-header,
+      .site-footer {
+        border: 1px solid rgba(220, 229, 239, 0.95);
+        border-radius: var(--radius-lg);
+        background: rgba(255, 255, 255, 0.82);
+        box-shadow: var(--shadow-sm);
+        backdrop-filter: blur(14px);
+      }
+
+      .site-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.25rem;
+        margin-bottom: 1.75rem;
+        padding: 1rem 1.2rem;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--text);
+        font-weight: 850;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 2.7rem;
+        height: 2.7rem;
+        place-items: center;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #0f766e, #1d4ed8);
+        color: #fff;
+        font-weight: 900;
+      }
+
+      .brand span:last-child {
+        display: grid;
+        line-height: 1.15;
+      }
+
+      .brand small {
+        color: var(--muted);
+        font-size: 0.86rem;
+        font-weight: 600;
+      }
+
+      .top-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+      }
+
+      .top-nav a {
+        border-radius: 999px;
+        color: var(--muted);
+        font-weight: 750;
+        padding: 0.65rem 0.85rem;
+        text-decoration: none;
+      }
+
+      .top-nav a:hover {
+        background: rgba(238, 247, 245, 0.9);
+        color: var(--text);
+      }
+
+      .hero-card,
+      .content-card,
+      .calculator-shell,
+      .site-footer {
+        margin-bottom: 1.5rem;
+      }
+
+      .hero-card,
+      .content-card,
+      .calculator-shell {
+        border: 1px solid rgba(220, 229, 239, 0.95);
+        border-radius: var(--radius-lg);
+        background: rgba(255, 255, 255, 0.84);
+        box-shadow: var(--shadow-sm);
+        padding: clamp(1.35rem, 3vw, 2rem);
+      }
+
+      .eyebrow {
+        margin-bottom: 0.7rem;
+        color: var(--brand);
+        font-size: 0.8rem;
+        font-weight: 850;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .hero-copy {
+        max-width: 58ch;
+        color: var(--muted);
+        font-size: 1.08rem;
+      }
+
+      .tool-grid,
+      .related-grid,
+      .home-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .tool-card,
+      .related-card {
+        display: block;
+        height: 100%;
+        border: 1px solid rgba(220, 229, 239, 0.96);
+        border-radius: var(--radius);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(243, 250, 248, 0.88));
+        color: inherit;
+        padding: 1rem;
+        text-decoration: none;
+        transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+      }
+
+      .tool-card:hover,
+      .related-card:hover {
+        border-color: rgba(15, 118, 110, 0.3);
+        box-shadow: var(--shadow-sm);
+        transform: translateY(-2px);
+      }
+
+      .tool-card strong,
+      .related-card strong {
+        display: block;
+        color: var(--text);
+        margin-bottom: 0.45rem;
+      }
+
+      .tool-card span,
+      .related-card span {
+        color: var(--muted);
+      }
+
+      .calculator-main {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(300px, 0.72fr);
+        gap: 1.4rem;
+        align-items: start;
+      }
+
+      .input-panel,
+      .result-card {
+        border: 1px solid rgba(220, 229, 239, 0.96);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.92);
+        padding: 1.2rem;
+      }
+
+      .result-card {
+        position: sticky;
+        top: 1rem;
+        background: #153451;
+        color: #fff;
+        box-shadow: var(--shadow);
+      }
+
+      .field-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .input-field {
+        display: grid;
+        gap: 0.4rem;
+        width: max-content;
+        max-width: 100%;
+        margin-bottom: 0.75rem;
+        font-weight: 750;
+      }
+
+      .input-field.compact input,
+      .input-field.compact select {
+        width: 120px;
+      }
+
+      .input-field.medium input,
+      .input-field.medium select {
+        width: 190px;
+      }
+
+      .input-wrap {
+        display: flex;
+        align-items: center;
+        min-height: 46px;
+        border: 1px solid rgba(196, 211, 227, 0.98);
+        border-radius: var(--radius-sm);
+        background: rgba(248, 251, 253, 0.96);
+        overflow: hidden;
+      }
+
+      .unit {
+        padding-left: 0.75rem;
+        color: var(--muted);
+      }
+
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+
+      .input-wrap input,
+      .input-wrap select {
+        min-height: 44px;
+        border: 0;
+        background: transparent;
+        color: var(--text);
+        padding: 0.55rem 0.75rem;
+        width: 100%;
+      }
+
+      .input-wrap input:focus,
+      .input-wrap select:focus {
+        outline: none;
+      }
+
+      .input-field.has-error .input-wrap {
+        border-color: rgba(180, 83, 9, 0.75);
+        background: #fff8ed;
+        box-shadow: 0 0 0 4px rgba(180, 83, 9, 0.1);
+      }
+
+      .field-error {
+        display: none;
+        color: #9a3412;
+        font-size: 0.88rem;
+        font-weight: 650;
+      }
+
+      .input-field.has-error .field-error {
+        display: block;
+      }
+
+      .action-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1rem;
+      }
+
+      button,
+      .button {
+        display: inline-flex;
+        min-height: 46px;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 850;
+        padding: 0.8rem 1.1rem;
+        text-decoration: none;
+      }
+
+      .primary-button {
+        background: var(--brand);
+        color: #fff;
+      }
+
+      .primary-button:hover {
+        background: var(--brand-dark);
+        color: #fff;
+      }
+
+      .secondary-button {
+        background: #edf5f4;
+        color: var(--text);
+      }
+
+      .result-label {
+        color: #a9f4e5;
+        font-size: 0.82rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .result-value {
+        color: #fff;
+        font-size: clamp(1.8rem, 4vw, 2.45rem);
+        font-weight: 900;
+        line-height: 1.04;
+      }
+
+      .result-muted {
+        color: #d7e9f4;
+      }
+
+      .result-list {
+        display: grid;
+        gap: 0.55rem;
+        margin: 1rem 0;
+      }
+
+      .result-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.16);
+        padding-top: 0.55rem;
+      }
+
+      .result-row strong {
+        color: #fff;
+      }
+
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+      }
+
+      .comparison-table th,
+      .comparison-table td {
+        border-bottom: 1px solid rgba(220, 229, 239, 0.96);
+        padding: 0.65rem;
+        text-align: left;
+      }
+
+      .formula-list {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      code {
+        display: inline-block;
+        max-width: 100%;
+        border: 1px solid rgba(220, 229, 239, 0.96);
+        border-radius: var(--radius-sm);
+        background: #f8fbfd;
+        padding: 0.55rem 0.7rem;
+        overflow-x: auto;
+      }
+
+      details {
+        border: 1px solid rgba(220, 229, 239, 0.96);
+        border-radius: var(--radius-sm);
+        background: #fff;
+        padding: 0.9rem 1rem;
+      }
+
+      summary {
+        cursor: pointer;
+        font-weight: 850;
+      }
+
+      .methodology-note,
+      .disclaimer {
+        border-radius: var(--radius);
+        background: var(--surface-tint);
+        color: var(--muted);
+        padding: 1rem;
+      }
+
+      .site-footer {
+        padding: 1.25rem;
+      }
+
+      .footer-top {
+        display: grid;
+        grid-template-columns: 1fr minmax(280px, 420px);
+        gap: 1.25rem;
+        align-items: start;
+      }
+
+      .contact-form {
+        display: grid;
+        gap: 0.8rem;
+      }
+
+      .contact-field {
+        display: grid;
+        gap: 0.35rem;
+        font-weight: 750;
+      }
+
+      .contact-form input,
+      .contact-form textarea {
+        width: 100%;
+        border: 1px solid rgba(196, 211, 227, 0.98);
+        border-radius: var(--radius-sm);
+        background: #fff;
+        color: var(--text);
+        padding: 0.7rem 0.8rem;
+      }
+
+      .contact-form textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+
+      .contact-field-error {
+        display: none;
+        color: #9a3412;
+        font-size: 0.86rem;
+        font-weight: 650;
+      }
+
+      .contact-field.has-error input,
+      .contact-field.has-error textarea {
+        border-color: rgba(180, 83, 9, 0.75);
+        background: #fff8ed;
+        box-shadow: 0 0 0 4px rgba(180, 83, 9, 0.1);
+      }
+
+      .contact-field.has-error .contact-field-error {
+        display: block;
+      }
+
+      .contact-status {
+        min-height: 1.4rem;
+        color: var(--brand);
+        font-weight: 750;
+      }
+
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .footer-links a {
+        color: var(--text);
+        font-weight: 750;
+        text-decoration: none;
+      }
+
+      .footer-links a:hover {
+        color: var(--brand);
+      }
+
+      @media (max-width: 980px) {
+        .tool-grid,
+        .related-grid,
+        .home-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .calculator-main {
+          grid-template-columns: 1fr;
+        }
+
+        .result-card {
+          position: static;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .page-shell {
+          padding: 0.85rem;
+        }
+
+        .site-header {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .top-nav {
+          width: 100%;
+        }
+
+        .top-nav a {
+          padding-left: 0;
+        }
+
+        .tool-grid,
+        .related-grid,
+        .home-grid,
+        .footer-top {
+          grid-template-columns: 1fr;
+        }
+
+        .input-field,
+        .input-field.compact input,
+        .input-field.compact select,
+        .input-field.medium input,
+        .input-field.medium select {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="/">
+          <span class="brand-mark">RC</span>
+          <span>{site.name}<small>Rent estimates and manual comps</small></span>
+        </a>
+        <nav class="top-nav" aria-label="Primary navigation">
+          <a href="/rent-estimate/">Rent Estimate</a>
+          <a href="/rent-comparison/">Compare Rents</a>
+          <a href="/market-rent-analysis/">Market Analysis</a>
+          <a href="/methodology/">Methodology</a>
+        </nav>
+      </header>
+
+      <main>
+        <slot />
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-top">
+          <div>
+            <h2>Contact</h2>
+            <p class="hero-copy">Send a quick note about a calculator issue, suggestion, or rental math question.</p>
+            <nav class="footer-links" aria-label="Footer navigation">
+              <a href="/">Home</a>
+              <a href="/about/">About</a>
+              <a href="/methodology/">Methodology</a>
+            </nav>
+          </div>
+          <form class="contact-form" data-contact-form novalidate>
+            <label class="contact-field">
+              <span>Name</span>
+              <input name="name" autocomplete="name" aria-describedby="footer-name-error" />
+              <span class="contact-field-error" id="footer-name-error">Please enter your name.</span>
+            </label>
+            <label class="contact-field">
+              <span>Email</span>
+              <input name="email" type="email" autocomplete="email" aria-describedby="footer-email-error" />
+              <span class="contact-field-error" id="footer-email-error">Please enter your email.</span>
+            </label>
+            <label class="contact-field">
+              <span>Message</span>
+              <textarea name="message" aria-describedby="footer-message-error"></textarea>
+              <span class="contact-field-error" id="footer-message-error">Please enter a message.</span>
+            </label>
+            <button class="primary-button" type="submit">Send message</button>
+            <p class="contact-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </footer>
+    </div>
+    <script>
+      import "../scripts/contact-form.ts";
+    </script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+---
+import type { ToolField } from "../data/tools";
+
+interface Props {
+  field: ToolField;
+  prefix?: string;
+  value?: string;
+}
+
+const { field, prefix = "", value = "" } = Astro.props;
+const id = `${prefix}${field.id}`;
+const errorId = `${id}-error`;
+---
+
+<label class={`input-field ${field.size}`} data-field={id}>
+  <span>{field.label}</span>
+  <span class="input-wrap">
+    {field.unit === "$" && <span class="unit">$</span>}
+    {
+      field.type === "select" ? (
+        <select id={id} name={id} data-input={field.id} aria-describedby={errorId} required={field.required}>
+          {field.options?.map((option) => <option value={option.value}>{option.label}</option>)}
+        </select>
+      ) : (
+        <input
+          id={id}
+          name={id}
+          type="number"
+          inputmode="decimal"
+          min={field.min}
+          step={field.step ?? "any"}
+          value={value}
+          data-input={field.id}
+          aria-describedby={errorId}
+          required={field.required}
+        />
+      )
+    }
+    {field.unit === "sq ft" && <span class="unit">sq ft</span>}
+  </span>
+  <span class="field-error" id={errorId}>{field.message ?? "This field is required."}</span>
+</label>

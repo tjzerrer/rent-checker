@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
+---
+
+<BaseLayout
+  title={`About | ${site.name}`}
+  description="Learn what Rent Checker is designed to do and how its rent estimate and comparison tools should be used."
+>
+  <section class="hero-card">
+    <div class="eyebrow">About</div>
+    <h1>Simple rent checks without extra software.</h1>
+    <p class="hero-copy">Rent Checker is a small toolkit for manual rent estimates, rental comparisons, and above-or-below-market planning checks.</p>
+  </section>
+
+  <section class="content-card">
+    <h2>What this site is for</h2>
+    <p>Use these tools when you need a quick planning answer before doing deeper rental research. The calculators keep assumptions visible and avoid live data claims.</p>
+    <p class="disclaimer">This tool provides estimates for planning purposes only and does not replace professional real estate advice.</p>
+  </section>
+</BaseLayout>

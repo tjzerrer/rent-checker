@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CalculatorTool from "../components/CalculatorTool.astro";
+import { getTool, tools } from "../data/tools";
+import { site } from "../data/site";
+
+export function getStaticPaths() {
+  return tools.map((tool) => ({
+    params: { slug: tool.slug },
+    props: { tool }
+  }));
+}
+
+const { tool } = Astro.props;
+const toolUrl = `${site.url}/${tool.slug}/`;
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: tool.pageTitle,
+    description: tool.description,
+    url: toolUrl,
+    isPartOf: {
+      "@type": "WebSite",
+      name: site.name,
+      url: site.url
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 2, name: tool.pageTitle, item: toolUrl }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: tool.faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer
+      }
+    }))
+  }
+];
+---
+
+<BaseLayout title={tool.title} description={tool.description} structuredData={structuredData}>
+  <CalculatorTool tool={tool} />
+</BaseLayout>
