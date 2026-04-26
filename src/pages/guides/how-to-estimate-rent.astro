@@ -1,0 +1,235 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import GuideArticle from "../../components/GuideArticle.astro";
+import ToolCTA from "../../components/ToolCTA.astro";
+import RelatedTools from "../../components/RelatedTools.astro";
+import RelatedGuides from "../../components/RelatedGuides.astro";
+import FAQBlock from "../../components/FAQBlock.astro";
+import { getGuide } from "../../data/guides";
+import { site } from "../../data/site";
+
+const guide = getGuide("how-to-estimate-rent")!;
+const guideUrl = `${site.url}/guides/${guide.slug}/`;
+const faqs = [
+  {
+    question: "How accurate is a rent estimate?",
+    answer:
+      "A rent estimate is a starting point, not a guarantee. Final pricing depends on location, demand, competition, property condition, and how similar your comparable rentals are."
+  },
+  {
+    question: "What is a good price per square foot for rent?",
+    answer:
+      "There is no universal number. A good price per square foot depends on the local market and property type. The best approach is to compare similar rentals in the same area."
+  },
+  {
+    question: "Should I price above market?",
+    answer:
+      "You can price slightly above market if your property has strong advantages, but pricing too high can increase vacancy risk. A small premium may work better than an aggressive overprice."
+  },
+  {
+    question: "How often should I review rent?",
+    answer:
+      "Review rent whenever you list a property, renew a lease, make upgrades, or notice that comparable rentals have changed pricing."
+  },
+  {
+    question: "Can I use this guide for apartments and houses?",
+    answer:
+      "Yes, but the comparison should match the property type as closely as possible. Compare apartments to apartments, houses to houses, and duplexes to similar rentals when possible."
+  }
+];
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: guide.h1,
+    description: guide.description,
+    url: guideUrl,
+    mainEntityOfPage: guideUrl,
+    isPartOf: {
+      "@type": "WebSite",
+      name: site.name,
+      url: site.url
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 2, name: "Guides", item: `${site.url}/guides/` },
+      { "@type": "ListItem", position: 3, name: guide.pageTitle, item: guideUrl }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer
+      }
+    }))
+  }
+];
+---
+
+<BaseLayout title={guide.title} description={guide.description} structuredData={structuredData}>
+  <GuideArticle guide={guide}>
+    <section class="guide-section">
+      <p>Figuring out the right rent isn't guesswork, but it also isn't a single formula.</p>
+      <p>If you price too high, your property may sit vacant. If you price too low, you may lose money every month.</p>
+      <p>This guide walks you through a practical way to estimate rent and shows you how to use the calculators on this site as you go.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>Step 1: Start With Price Per Square Foot</h2>
+      <p>A reliable starting point is rent per square foot. Instead of guessing a number, use comparable pricing to build a baseline.</p>
+      <p>Price per square foot helps you compare properties of different sizes more fairly. A smaller property may have a lower total rent but a higher rent per square foot. A larger property may cost more overall but be priced more efficiently.</p>
+      <ToolCTA
+        title="Estimate Your Rent Range"
+        text="Use the Rent Estimate Calculator to enter square footage, bedrooms, bathrooms, property type, and condition. The tool will return an estimated rent range and price per square foot."
+        button="Use the Rent Estimate Calculator"
+        href="/rent-estimate/"
+      />
+    </section>
+
+    <section class="guide-section">
+      <h2>Step 2: Adjust for Bedrooms and Layout</h2>
+      <p>Square footage alone is not enough. Two properties with the same size can rent very differently depending on layout.</p>
+      <p>In general, more bedrooms usually increase rent, but layout quality matters too. A functional floor plan, usable bedrooms, storage, parking, outdoor space, or a home office can all affect what renters are willing to pay.</p>
+      <p><strong>Example:</strong> A 1,200 square foot two-bedroom rental may price differently than a 1,200 square foot three-bedroom rental, even though the total square footage is the same. The three-bedroom property may appeal to more renters or support a higher rent if the layout is practical.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>Step 3: Factor in Condition and Upgrades</h2>
+      <p>Condition can move your rent estimate significantly.</p>
+      <p>A property may justify higher rent if it has updated kitchens or bathrooms, new flooring, fresh paint, modern appliances, good lighting, or strong curb appeal.</p>
+      <p>A property may need a more conservative rent estimate if it has outdated finishes, visible wear and tear, older appliances, poor layout, or deferred maintenance.</p>
+      <p>Even modest upgrades can affect perceived value. The goal is not to overprice every improvement, but to compare your property honestly against similar rentals.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>Step 4: Compare Similar Properties</h2>
+      <p>Once you have a starting estimate, refine it using comparable rentals. Look for properties with similar square footage, bedroom count, bathroom count, condition, property type, and location.</p>
+      <p>Comparing rentals side by side helps you avoid relying on one listing that may be unusually high or unusually low.</p>
+      <ToolCTA
+        title="Compare Rental Properties Side by Side"
+        text="Use the Rent Comparison Tool to enter multiple rentals and compare rent, square footage, bedrooms, bathrooms, and price per square foot."
+        button="Use the Rent Comparison Tool"
+        href="/rent-comparison/"
+      />
+      <div class="guide-table-wrap">
+        <table class="guide-table">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Rent</th>
+              <th>Sq Ft</th>
+              <th>Price Per Sq Ft</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Property A</td><td>$1,850</td><td>1,200</td><td>$1.54</td></tr>
+            <tr><td>Property B</td><td>$1,900</td><td>1,250</td><td>$1.52</td></tr>
+            <tr><td>Property C</td><td>$1,750</td><td>1,150</td><td>$1.52</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>In this example, the comparable rentals are tightly grouped around roughly $1.52 to $1.54 per square foot. That gives you a more realistic pricing range than guessing from rent alone.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>Step 5: Analyze Market Position</h2>
+      <p>After you estimate rent and compare similar properties, check whether your price is above or below market.</p>
+      <p>This helps answer a practical question: are you pricing competitively, underpricing the property, or asking too much?</p>
+      <ToolCTA
+        title="Check If Your Rent Is Above or Below Market"
+        text="Use the Market Rent Analysis Tool to compare your rent against an estimated market rent and see the percentage difference."
+        button="Use the Market Rent Analysis Tool"
+        href="/market-rent-analysis/"
+      />
+      <p>If your rent is slightly below market, you may have room to increase. If it is above market, you may still be fine if the property has strong advantages, but vacancy risk may be higher.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>Step 6: Set a Strategic Price</h2>
+      <p>Now combine the information:</p>
+      <ul>
+        <li>Price per square foot</li>
+        <li>Bedrooms and layout</li>
+        <li>Condition and upgrades</li>
+        <li>Comparable rentals</li>
+        <li>Market position</li>
+      </ul>
+      <p>The goal is to choose a smart range, not pretend there is one perfect number.</p>
+      <p>For example, if your estimated range is $1,750 to $1,950, your strategy matters. If you want faster occupancy, you may price near the lower end. If demand is strong and your property compares well, you may test the higher end.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>Full Example Walkthrough</h2>
+      <p>Suppose you have a rental property with:</p>
+      <ul>
+        <li>1,200 square feet</li>
+        <li>3 bedrooms</li>
+        <li>Updated interior</li>
+        <li>Comparable rentals around $1.50 to $1.55 per square foot</li>
+      </ul>
+      <p>A basic estimate would be:</p>
+      <p>1,200 x $1.50 = $1,800<br />1,200 x $1.55 = $1,860</p>
+      <p>If the property has meaningful updates, you might consider adding a modest premium. That could place the practical rent range around $1,850 to $1,950.</p>
+      <p>Then you would use the <a href="/rent-comparison/">Rent Comparison Tool</a> to check that range against similar rentals and the <a href="/market-rent-analysis/">Market Rent Analysis Tool</a> to confirm whether the final price is above or below your estimate of market rent.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>Common Mistakes to Avoid</h2>
+      <h3>Mistake 1: Ignoring square footage</h3>
+      <p>Pricing only by total rent can be misleading. Price per square foot gives you a better comparison point.</p>
+      <h3>Mistake 2: Comparing the wrong properties</h3>
+      <p>A luxury rental is not a good comparison for a basic rental. Try to compare properties that are genuinely similar.</p>
+      <h3>Mistake 3: Overpricing emotionally</h3>
+      <p>Your property's rent is based on the market, not your personal attachment or total investment.</p>
+      <h3>Mistake 4: Underpricing just to fill quickly</h3>
+      <p>Filling a vacancy matters, but underpricing too much can cost thousands over a lease term.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>Quick Workflow</h2>
+      <p>Use this simple workflow whenever you need to estimate rent:</p>
+      <ol>
+        <li>Start with the Rent Estimate Calculator.</li>
+        <li>Refine your number with the Rent Comparison Tool.</li>
+        <li>Confirm your price position with the Market Rent Analysis Tool.</li>
+      </ol>
+      <div class="compact-link-grid">
+        <a class="related-card" href="/rent-estimate/"><strong>Rent Estimate Calculator</strong><span>Estimate a monthly rent range.</span></a>
+        <a class="related-card" href="/rent-comparison/"><strong>Rent Comparison Tool</strong><span>Compare rentals side by side.</span></a>
+        <a class="related-card" href="/market-rent-analysis/"><strong>Market Rent Analysis</strong><span>Check above or below market.</span></a>
+      </div>
+    </section>
+
+    <section class="guide-section">
+      <h2>Final Thought</h2>
+      <p>The best rent price comes from combining data with strategy. Use square footage, comparable rentals, property condition, and market position together so your rent estimate is based on more than a guess.</p>
+      <ToolCTA
+        title="Estimate Your Rent Now"
+        text="Start with the Rent Estimate Calculator, then compare similar rentals and check your market position."
+        button="Estimate Rent"
+        href="/rent-estimate/"
+      />
+      <div class="action-row">
+        <a class="button secondary-button" href="/rent-comparison/">Compare Rentals</a>
+        <a class="button secondary-button" href="/market-rent-analysis/">Analyze Market Rent</a>
+      </div>
+      <div class="compact-link-grid">
+        <a class="related-card" href="/rent-comparison/"><strong>Compare Rentals</strong><span>Review rent and price per square foot.</span></a>
+        <a class="related-card" href="/market-rent-analysis/"><strong>Analyze Market Rent</strong><span>Check your market position.</span></a>
+      </div>
+    </section>
+  </GuideArticle>
+
+  <FAQBlock faqs={faqs} />
+  <RelatedTools related={["rent-estimate", "rent-comparison", "market-rent-analysis"]} />
+  <RelatedGuides related={["rent-price-per-square-foot"]} />
+</BaseLayout>

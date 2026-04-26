@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { site } from "../data/site";
 import { tools } from "../data/tools";
+import { guides } from "../data/guides";
 
 const structuredData = [
   {
@@ -62,6 +63,18 @@ const structuredData = [
         <p>Use Market Rent Analysis when you have your rent and a market estimate and want to see the difference.</p>
         <a href="/market-rent-analysis/">Analyze market rent</a>
       </div>
+    </div>
+  </section>
+
+  <section class="content-card">
+    <h2>Rent Guides</h2>
+    <div class="tool-grid">
+      {guides.map((guide) => (
+        <a class="tool-card" href={`/guides/${guide.slug}/`}>
+          <strong>{guide.pageTitle}</strong>
+          <span>{guide.intro}</span>
+        </a>
+      ))}
     </div>
   </section>
 

@@ -1,0 +1,219 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import GuideArticle from "../../components/GuideArticle.astro";
+import ToolCTA from "../../components/ToolCTA.astro";
+import RelatedTools from "../../components/RelatedTools.astro";
+import RelatedGuides from "../../components/RelatedGuides.astro";
+import FAQBlock from "../../components/FAQBlock.astro";
+import { getGuide } from "../../data/guides";
+import { site } from "../../data/site";
+
+const guide = getGuide("rent-price-per-square-foot")!;
+const guideUrl = `${site.url}/guides/${guide.slug}/`;
+const faqs = [
+  {
+    question: "Is higher price per square foot always better?",
+    answer: "No. It depends on property type, market demand, condition, and how the rental compares with similar properties."
+  },
+  {
+    question: "Why are smaller units more expensive per square foot?",
+    answer: "Smaller units often have higher demand and use space more efficiently, so the total rent can be lower while the price per square foot is higher."
+  },
+  {
+    question: "Should I price at the top of the range?",
+    answer: "Only if your property stands out. Strong condition, layout, location, or included amenities may support a premium, but pricing too high can increase vacancy risk."
+  },
+  {
+    question: "How many properties should I compare?",
+    answer: "Compare at least 3 to 5 similar rentals when possible. The closer they are in size, type, condition, and location, the more useful the comparison will be."
+  }
+];
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: guide.h1,
+    description: guide.description,
+    url: guideUrl,
+    mainEntityOfPage: guideUrl,
+    isPartOf: {
+      "@type": "WebSite",
+      name: site.name,
+      url: site.url
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 2, name: "Guides", item: `${site.url}/guides/` },
+      { "@type": "ListItem", position: 3, name: guide.pageTitle, item: guideUrl }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer
+      }
+    }))
+  }
+];
+---
+
+<BaseLayout title={guide.title} description={guide.description} structuredData={structuredData}>
+  <GuideArticle guide={guide}>
+    <section class="guide-section">
+      <p>When trying to estimate rent, one of the most useful metrics is price per square foot.</p>
+      <p>It gives you a simple way to compare properties, even when they are different sizes.</p>
+      <p>But there is no single correct number. It depends entirely on your market, property type, and condition.</p>
+      <p>This guide shows you how to use price per square foot correctly and how to connect it to the calculators on this site.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>What Is Price Per Square Foot?</h2>
+      <p>Price per square foot is the monthly rent divided by the property's square footage.</p>
+      <p><strong>Price per square foot = Rent / Square footage</strong></p>
+      <p>Example:</p>
+      <ul>
+        <li>Rent: $1,800</li>
+        <li>Size: 1,200 sq ft</li>
+        <li>Result: $1.50 per sq ft</li>
+      </ul>
+      <p>This helps you compare properties of different sizes more fairly.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>Why Price Per Square Foot Matters</h2>
+      <p>Total rent alone can be misleading because it does not account for size.</p>
+      <div class="guide-table-wrap">
+        <table class="guide-table">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Rent</th>
+              <th>Sq Ft</th>
+              <th>Price Per Sq Ft</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>A</td><td>$1,800</td><td>1,200</td><td>$1.50</td></tr>
+            <tr><td>B</td><td>$2,000</td><td>1,500</td><td>$1.33</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Property B costs more overall, but Property A is actually more expensive per square foot.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>Find Your Market Range</h2>
+      <p>Do not guess a single number. Build a practical range from your property details and comparable rentals.</p>
+      <ToolCTA
+        title="Estimate Your Rent Range"
+        text="Use the Rent Estimate Calculator to quickly generate a rent range and price per square foot based on your property details."
+        button="Use the Rent Estimate Calculator"
+        href="/rent-estimate/"
+      />
+    </section>
+
+    <section class="guide-section">
+      <h2>Compare Similar Properties</h2>
+      <p>A realistic price per square foot range comes from similar rentals. Look for properties with similar size, bedroom count, bathroom count, condition, property type, and location.</p>
+      <ToolCTA
+        title="Compare Rentals Side by Side"
+        text="Use the Rent Comparison Tool to enter multiple properties and see rent, square footage, and price per square foot together."
+        button="Use the Rent Comparison Tool"
+        href="/rent-comparison/"
+      />
+      <p>Instead of relying on one listing, look for a range such as $1.45 to $1.60 per sq ft. A tight range gives you better pricing context than a single outlier.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>What Affects Price Per Square Foot</h2>
+      <h3>1. Property Size</h3>
+      <p>Smaller units often have higher price per square foot. Larger properties may have higher total rent but a lower price per square foot.</p>
+      <h3>2. Bedrooms and Layout</h3>
+      <p>Bedroom count matters, but layout efficiency matters too. A practical layout can support stronger rent than awkward square footage.</p>
+      <h3>3. Condition and Upgrades</h3>
+      <p>Updated kitchens, bathrooms, flooring, paint, appliances, and lighting can increase perceived value.</p>
+      <h3>4. Location</h3>
+      <p>Neighborhood, commute access, nearby amenities, and local demand can move price per square foot significantly.</p>
+      <h3>5. Property Type</h3>
+      <p>Apartments, houses, duplexes, townhomes, and condos may rent differently even at similar sizes.</p>
+    </section>
+
+    <section class="guide-section">
+      <h2>Check If Your Price Is Competitive</h2>
+      <ToolCTA
+        title="Check Your Market Position"
+        text="Use the Market Rent Analysis Tool to see if your rent is above or below your estimated market range."
+        button="Use the Market Rent Analysis Tool"
+        href="/market-rent-analysis/"
+      />
+      <ul>
+        <li><strong>Below range:</strong> the property may be underpriced.</li>
+        <li><strong>Within range:</strong> the rent is likely competitive.</li>
+        <li><strong>Above range:</strong> the property is using premium pricing.</li>
+      </ul>
+    </section>
+
+    <section class="guide-section">
+      <h2>What Is a Good Price Per Square Foot?</h2>
+      <p>There is no universal number. A good rent price per square foot is one that fits your local market and compares well with similar rentals.</p>
+      <p>For example, if the market range is $1.45 to $1.60 per sq ft:</p>
+      <ul>
+        <li>$1.52 may be solid.</li>
+        <li>$1.62 may be slightly premium.</li>
+        <li>$1.70 may be high unless the property has clear advantages.</li>
+      </ul>
+    </section>
+
+    <section class="guide-section">
+      <h2>Common Mistakes to Avoid</h2>
+      <ul>
+        <li>Using averages without context</li>
+        <li>Comparing different property types</li>
+        <li>Ignoring layout</li>
+        <li>Overpricing based on upgrades alone</li>
+      </ul>
+    </section>
+
+    <section class="guide-section">
+      <h2>Quick Workflow</h2>
+      <ol>
+        <li>Use the Rent Estimate Calculator.</li>
+        <li>Use the Rent Comparison Tool.</li>
+        <li>Use Market Rent Analysis.</li>
+      </ol>
+      <div class="compact-link-grid">
+        <a class="related-card" href="/rent-estimate/"><strong>Rent Estimate Calculator</strong><span>Estimate rent and price per square foot.</span></a>
+        <a class="related-card" href="/rent-comparison/"><strong>Rent Comparison Tool</strong><span>Compare rentals side by side.</span></a>
+        <a class="related-card" href="/market-rent-analysis/"><strong>Market Rent Analysis</strong><span>Check pricing position.</span></a>
+      </div>
+    </section>
+
+    <section class="guide-section">
+      <h2>Final Thought</h2>
+      <p>Price per square foot is a powerful tool, but only when combined with comparable rentals, property condition, and market positioning.</p>
+      <ToolCTA
+        title="Start Estimating Rent"
+        text="Use the tools below to estimate rent, compare properties, and analyze your pricing."
+        button="Estimate Rent"
+        href="/rent-estimate/"
+      />
+      <div class="action-row">
+        <a class="button secondary-button" href="/rent-comparison/">Compare Rentals</a>
+        <a class="button secondary-button" href="/market-rent-analysis/">Analyze Market</a>
+      </div>
+    </section>
+  </GuideArticle>
+
+  <FAQBlock faqs={faqs} />
+  <RelatedTools related={["rent-estimate", "rent-comparison", "market-rent-analysis"]} />
+  <RelatedGuides related={["how-to-estimate-rent"]} />
+</BaseLayout>

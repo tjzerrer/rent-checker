@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { guides } from "../../data/guides";
+import { site } from "../../data/site";
+
+const title = "Rent Guides | Rent Checker";
+const description = "Practical guides to help landlords, tenants, and property owners estimate rent, compare rentals, and understand market pricing.";
+const url = `${site.url}/guides/`;
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Rent Guides",
+    description,
+    url,
+    isPartOf: {
+      "@type": "WebSite",
+      name: site.name,
+      url: site.url
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 2, name: "Guides", item: url }
+    ]
+  }
+];
+---
+
+<BaseLayout title={title} description={description} structuredData={structuredData}>
+  <section class="hero-card">
+    <div class="eyebrow">Rent guides</div>
+    <h1>Rent Guides</h1>
+    <p class="hero-copy">Practical guides to help landlords, tenants, and property owners estimate rent, compare rentals, and understand market pricing.</p>
+  </section>
+
+  <section class="content-card">
+    <h2>Helpful Guides</h2>
+    <div class="tool-grid">
+      {guides.map((guide) => (
+        <a class="tool-card" href={`/guides/${guide.slug}/`}>
+          <strong>{guide.pageTitle}</strong>
+          <span>{guide.intro}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

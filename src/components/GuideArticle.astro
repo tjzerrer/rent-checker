@@ -1,0 +1,19 @@
+---
+import type { Guide } from "../data/guides";
+
+interface Props {
+  guide: Guide;
+}
+
+const { guide } = Astro.props;
+---
+
+<section class="hero-card guide-hero">
+  <div class="eyebrow">Rent guide</div>
+  <h1>{guide.h1}</h1>
+  <p class="hero-copy">{guide.intro}</p>
+</section>
+
+<article class="content-card guide-body">
+  <slot />
+</article>

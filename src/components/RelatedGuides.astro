@@ -1,0 +1,24 @@
+---
+import { getGuide } from "../data/guides";
+
+interface Props {
+  related: string[];
+}
+
+const { related } = Astro.props;
+const guides = related.map((slug) => getGuide(slug)).filter(Boolean);
+---
+
+{guides.length > 0 && (
+  <section class="content-card">
+    <h2>Related Guides</h2>
+    <div class="related-grid">
+      {guides.map((guide) => (
+        <a class="related-card" href={`/guides/${guide!.slug}/`}>
+          <strong>{guide!.pageTitle}</strong>
+          <span>{guide!.intro}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+)}
